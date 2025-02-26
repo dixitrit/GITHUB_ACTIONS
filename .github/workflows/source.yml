@@ -1,0 +1,21 @@
+name: Trigger External Workflow
+on: 
+  push:
+    branches:
+      - ritesh-test
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy to"
+        type: environment
+        required: true
+
+jobs:
+  trigger-workflow:
+    runs-on: ${{ vars.COMMON_SMALL }}
+    steps:
+    -  name: Trigger Workflow in another repository
+       env: 
+          TOK: "ghpeghtdgjhiugwduheg"
+       run: |
+          curl -X POST -H "Authorization: token $TOK" -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/Ritesh/iig-devops-test-repo/dispatches -d '{"event_type": "custom_event"}'
